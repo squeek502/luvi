@@ -13,6 +13,6 @@
 [submodule "deps/lua-zlib"]
 	path = deps/lua-zlib
 	url = https://github.com/brimworks/lua-zlib.git
-[submodule "deps/glfw"]
-	path = deps/glfw
-	url = https://github.com/glfw/glfw.git
+[submodule "deps/luv-glfw3"]
+	path = deps/luv-glfw3
+	url = https://github.com/creationix/luv-glfw3.git

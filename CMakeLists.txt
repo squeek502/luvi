@@ -24,9 +24,12 @@ include(deps/luv/deps/luajit.cmake)
 include(deps/luv/deps/uv.cmake)
 
 if (WithGLFW)
-  add_subdirectory(deps/glfw)
-  include_directories(deps/glfw/include)
-  set(EXTRA_LIBS ${EXTRA_LIBS} ${GLFW_LIBRARIES})
+  add_subdirectory(deps/luv-glfw3/deps/glfw)
+  include_directories(deps/luv-glfw3/deps/glfw/include)
+  include_directories(deps/luv-glfw3/src)
+  set(EXTRA_LIBS ${EXTRA_LIBS} glfw ${GLFW_LIBRARIES})
+  set(glfw deps/luv-glfw3/src/lglfw.c)
+  add_definitions( -DWITH_GLFW )
 endif (WithGLFW)
 
 if (WithOpenSSL)
@@ -51,6 +54,7 @@ if(UNIX)
 endif()
 
 luajit_add_executable(luvi
+  ${glfw}
   ${winsvc}
   src/main.c
   src/lua/init.lua
@@ -65,10 +69,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 endif()
 
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-  target_link_libraries(luvi uv lua51 rt ${EXTRA_LIBS})
-else()
-  target_link_libraries(luvi uv lua51 ${EXTRA_LIBS})
+  set(EXTRA_LIBD rt ${EXTRA_LIBS})
 endif()
+
+target_link_libraries(luvi uv lua51 ${EXTRA_LIBS})
 
 ###############################################################################
 ## Installation Targets

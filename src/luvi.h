@@ -33,6 +33,9 @@
 #include <errno.h>
 #endif
 
+#ifdef WITH_GLFW
+#include "lglfw.h"
+#endif
 #ifdef WITH_OPENSSL
 #include "openssl.h"
 #endif

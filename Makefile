@@ -69,6 +69,9 @@ deps/luv/CMakeLists.txt:
 clean:
 	rm -rf build luvi.tar.gz
 
+test-game: game luvi
+	LUVI_APP=samples/game.app build/luvi
+
 test: luvi
 	rm -f test.bin
 	LUVI_APP=samples/test.app build/luvi 1 2 3 4
