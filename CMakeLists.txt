@@ -23,6 +23,12 @@ option(WithPackageBUNDLE "Build OSX bundle." OFF)
 include(deps/luv/deps/luajit.cmake)
 include(deps/luv/deps/uv.cmake)
 
+if (WithGLFW)
+  add_subdirectory(deps/glfw)
+  include_directories(deps/glfw/include)
+  set(EXTRA_LIBS ${EXTRA_LIBS} ${GLFW_LIBRARIES})
+endif (WithGLFW)
+
 if (WithOpenSSL)
   include(deps/openssl.cmake)
   add_definitions( -DWITH_OPENSSL )

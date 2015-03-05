@@ -47,6 +47,10 @@ build:
 tiny: deps/luv/CMakeLists.txt
 	cmake $(CMAKE_FLAGS) $(CPACK_FLAGS)
 
+# Configure the build with minimal dependencies
+game: deps/luv/CMakeLists.txt
+	cmake $(CMAKE_FLAGS) $(CPACK_FLAGS) -DWithGLFW=ON
+
 # Configure the build with everything, use shared libs when possible
 large: deps/luv/CMakeLists.txt
 	cmake $(CMAKE_FLAGS) $(CPACK_FLAGS) -DWithOpenSSL=ON -DWithZLIB=ON
