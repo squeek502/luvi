@@ -69,12 +69,19 @@ deps/luv/CMakeLists.txt:
 clean:
 	rm -rf build luvi.tar.gz
 
+test-game: game luvi
+	LUVI_APP=samples/game.app build/luvi
+
+test-repl: luvi
+	LUVI_APP=samples/repl.app build/luvi
+
 test: luvi
 	rm -f test.bin
 	LUVI_APP=samples/test.app build/luvi 1 2 3 4
 	LUVI_APP=samples/test.app LUVI_TARGET=test.bin build/luvi
 	LUVI_app= ./test.bin 1 2 3 4
 	rm -f test.bin
+
 install: luvi
 	install -p build/luvi /usr/local/bin
 

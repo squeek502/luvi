@@ -26,7 +26,7 @@ include(deps/luv/deps/uv.cmake)
 if (WithGLFW)
   add_subdirectory(deps/glfw)
   include_directories(deps/glfw/include)
-  set(EXTRA_LIBS ${EXTRA_LIBS} ${GLFW_LIBRARIES})
+  set(EXTRA_LIBS ${EXTRA_LIBS} glfw ${GLFW_LIBRARIES})
 endif (WithGLFW)
 
 if (WithOpenSSL)
@@ -42,7 +42,7 @@ endif (WithZLIB)
 add_definitions( -DLUVI_VERSION="${LUVI_VERSION}" )
 
 if(MSVC)
-  set(winsvc src/winsvc.h src/winsvcaux.h src/winsvc.c src/winsvcaux.c)
+  set(EXTRA_SOURCE ${EXTRA_SOURCE} src/winsvc.h src/winsvcaux.h src/winsvc.c src/winsvcaux.c)
   add_definitions( -DWITH_WINSVC -DLUA_BUILD_AS_DLL -DLUA_LIB -DBUILDING_UV_SHARED )
 endif()
 
@@ -50,25 +50,26 @@ if(UNIX)
   add_definitions(-Wall)
 endif()
 
-luajit_add_executable(luvi
-  ${winsvc}
-  src/main.c
-  src/lua/init.lua
-)
 
 if(APPLE)
   set(CMAKE_EXE_LINKER_FLAGS "-pagezero_size 10000 -image_base 100000000 ${CMAKE_EXE_LINKER_FLAGS}")
 endif()
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+if(UNIX)
   set(CMAKE_EXE_LINKER_FLAGS "-Wl,-E")
 endif()
 
 if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
-  target_link_libraries(luvi uv lua51 rt ${EXTRA_LIBS})
-else()
-  target_link_libraries(luvi uv lua51 ${EXTRA_LIBS})
+  set(EXTRA_LIBS rt ${EXTRA_LIBS})
 endif()
+
+luajit_add_executable(luvi
+  src/main.c
+  src/lua/init.lua
+  ${EXTRA_SOURCE}
+)
+
+target_link_libraries(luvi uv lua51 ${EXTRA_LIBS})
 
 ###############################################################################
 ## Installation Targets
