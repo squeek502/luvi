@@ -20,12 +20,21 @@
 #include "lenv.c"
 #include "luvi.c"
 #include "lminiz.c"
+#ifdef WIN32
+#include "delayimp.h"
+#pragma comment(lib, "DelayImp.lib")
+FARPROC WINAPI LoadFailureHook(unsigned dliNotify, PDelayLoadInfo pdli);
+#endif
 
 int main(int argc, char* argv[] ) {
 
   lua_State* L;
   int index;
   int res;
+
+#ifdef WIN32
+  __pfnDliFailureHook2 = LoadFailureHook;
+#endif
 
   // Hooks in libuv that need to be done in main.
   argv = uv_setup_args(argc, argv);
@@ -106,3 +115,23 @@ int main(int argc, char* argv[] ) {
   lua_close(L);
   return res;
 }
+
+#ifdef WIN32
+FARPROC WINAPI LoadFailureHook(unsigned dliNotify, PDelayLoadInfo pdli)
+{
+  if (dliNotify == dliFailLoadLib) {
+    if (_stricmp("luvi.exe", pdli->szDll) == 0 ||
+      _stricmp("lit.exe", pdli->szDll) == 0) {
+      TCHAR name[MAX_PATH + 1];
+      DWORD ret = GetModuleFileName(NULL, name, MAX_PATH + 1);
+      if (ret > 0) {
+        HMODULE module = LoadLibrary(name);
+        if (module) {
+          return (FARPROC)module;
+        }
+      }
+    }
+  }
+  return 0;
+}
+#endif
