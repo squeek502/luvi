@@ -37,6 +37,8 @@ add_definitions( -DLUVI_VERSION="${LUVI_VERSION}" )
 
 if(MSVC)
   set(winsvc src/winsvc.h src/winsvcaux.h src/winsvc.c src/winsvcaux.c)
+  set(EXTRA_LIBS ${EXTRA_LIBS} DelayImp.lib)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /DELAYLOAD:luvi.exe /DELAYLOAD:lit.exe")
   add_definitions( -DWITH_WINSVC -DLUA_BUILD_AS_DLL -DLUA_LIB -DBUILDING_UV_SHARED )
 endif()
 

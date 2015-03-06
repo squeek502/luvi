@@ -22,7 +22,6 @@
 #include "lminiz.c"
 #ifdef WIN32
 #include "delayimp.h"
-#pragma comment(lib, "DelayImp.lib")
 FARPROC WINAPI LoadFailureHook(unsigned dliNotify, PDelayLoadInfo pdli);
 #endif
 
