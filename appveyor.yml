@@ -4,6 +4,7 @@ configuration: Release
 environment:
   matrix:
     - BUILD_TYPE: tiny
+    - BUILD_TYPE: tiny32
     - BUILD_TYPE: regular-asm
     - BUILD_TYPE: regular32-asm
 
@@ -22,8 +23,12 @@ build_script:
 test_script:
  - Make.bat test
 
+after_build:
+ - Make.bat artifacts-%BUILD_TYPE%
+
 artifacts:
- - path: luvi.exe
+ - path: artifacts\*.exe
+ - path: artifacts\*.lib
 
 cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
