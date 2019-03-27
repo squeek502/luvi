@@ -34,3 +34,16 @@ cache:
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
   - C:\Program Files\NASM -> appveyor.yml
+
+deploy:
+  description: '' # appveyor says this is mandatory
+  provider: GitHub
+  auth_token:
+    secure: CUdDX5CpPbXYXe9Om2mi1JNuCKtQPrUd6G0meeQRiN3CT+wwDsgC7u59QfxQ61cA
+  artifact: /.*/ # everything
+  draft: false
+  prerelease: false
+  force_update: true
+  on:
+    branch: master                 # release from master branch only
+    APPVEYOR_REPO_TAG: true        # deploy on tag push only
