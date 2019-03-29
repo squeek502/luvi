@@ -31,7 +31,7 @@ jobs:
       #if: tag IS present
       os: linux
       script:
-        - make linux-build
+        - make linux-build-box32-regular
       services:
         - docker
       deploy:
