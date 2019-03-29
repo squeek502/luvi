@@ -28,7 +28,7 @@ script:
 jobs:
   include:
     - stage: deploy
-      #if: tag IS present #temp disabled for testing
+      if: tag IS present
       os: linux
       env: []
       script:

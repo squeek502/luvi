@@ -7,24 +7,20 @@ echo "Build Type: ${BUILD_TYPE}"
 
 set -e
 
-echo "Before:"
-echo "LDFLAGS: ${LDFLAGS}"
-echo "CFLAGS: ${CFLAGS}"
 # Activate Holy Build Box environment.
 source /hbb_exe/activate
-echo "After:"
-echo "LDFLAGS: ${LDFLAGS}"
-echo "CFLAGS: ${CFLAGS}"
 
 set -x
 
 # Extract and enter source
 # Use /luvi dir to avoid CMake assertion faluire in /
-# mkdir -p luvi
-# tar xzf /io/luvi-src.tar.gz --directory luvi
-# cd luvi
-# make ${BUILD_TYPE}
-# make -j${NPROCS} VERBOSE=1
-# ldd build/luvi
-# libcheck build/luvi
-# cp build/luvi /io
+mkdir -p luvi
+tar xzf /io/luvi-src.tar.gz --directory luvi
+cd luvi
+make ${BUILD_TYPE}
+make -j${NPROCS}
+ldd build/luvi
+libcheck build/luvi
+# holy-build-box adds -g to CFLAGS, so we need to strip
+strip --strip-all build/luvi
+cp build/luvi /io
