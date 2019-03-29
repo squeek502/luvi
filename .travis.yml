@@ -24,3 +24,23 @@ before_install:
 script:
   - WITHOUT_AMALG=1 make ${BUILD_TYPE}
   - make test
+
+jobs:
+  include:
+    - stage: deploy
+      #if: tag IS present
+      os: linux
+      script:
+        - docker-machine create --driver vmwarefusion --vmwarefusion-cpu-count 3 holy-build-box
+        - eval $(docker-machine env holy-build-box)
+        - make linux-build
+      services:
+        - docker
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OAUTH_TOKEN
+        #file: luv-$TRAVIS_TAG.tar.gz
+        overwrite: true
+        skip_cleanup: true
+        on:
+          tags: true
