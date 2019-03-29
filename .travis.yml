@@ -28,18 +28,24 @@ script:
 jobs:
   include:
     - stage: deploy
-      #if: tag IS present
+      if: tag IS present
       os: linux
+      env:
+        - BUILD_TYPE=
       script:
         # fetch tags so that git describe works
         - git fetch --unshallow
-        - make linux-build-box32-regular
+        - make linux-build
       services:
         - docker
       deploy:
         provider: releases
         api_key: $GITHUB_OAUTH_TOKEN
-        #file: luv-$TRAVIS_TAG.tar.gz
+        file:
+          - "luvi-regular-Linux_x86_64"
+          - "luvi-tiny-Linux_x86_64"
+          - "luvi-regular-Linux_i686"
+          - "luvi-tiny-Linux_i686"
         overwrite: true
         skip_cleanup: true
         on:
