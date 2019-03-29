@@ -30,8 +30,7 @@ jobs:
     - stage: deploy
       if: tag IS present
       os: linux
-      env:
-        - BUILD_TYPE=
+      env: []
       script:
         # fetch tags so that git describe works
         - git fetch --unshallow
