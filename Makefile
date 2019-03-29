@@ -112,14 +112,14 @@ linux-build-box-regular: luvi-src.tar.gz
 	mkdir -p build
 	docker run -t -i --rm \
 		  -v `pwd`/build:/io phusion/holy-build-box-64:latest bash /io/holy-build.sh regular-asm
-	mv build/luvi luvi-regular-Linux_x86_64
+	#mv build/luvi luvi-regular-Linux_x86_64
 
 linux-build-box32-regular: luvi-src.tar.gz
 	rm -rf build && mkdir -p build
 	cp packaging/holy-build.sh luvi-src.tar.gz build
 	docker run -t -i --rm \
 		  -v `pwd`/build:/io phusion/holy-build-box-32:latest bash /io/holy-build.sh regular-asm
-	mv build/luvi luvi-regular-Linux_i686
+	#mv build/luvi luvi-regular-Linux_i686
 
 linux-build-box-tiny: luvi-src.tar.gz
 	rm -rf build && mkdir -p build
@@ -127,14 +127,14 @@ linux-build-box-tiny: luvi-src.tar.gz
 	mkdir -p build
 	docker run -t -i --rm \
 		  -v `pwd`/build:/io phusion/holy-build-box-64:latest bash /io/holy-build.sh tiny
-	mv build/luvi luvi-tiny-Linux_x86_64
+	#mv build/luvi luvi-tiny-Linux_x86_64
 
 linux-build-box32-tiny: luvi-src.tar.gz
 	rm -rf build && mkdir -p build
 	cp packaging/holy-build.sh luvi-src.tar.gz build
 	docker run -t -i --rm \
 		  -v `pwd`/build:/io phusion/holy-build-box-32:latest bash /io/holy-build.sh tiny
-	mv build/luvi luvi-tiny-Linux_i686
+	#mv build/luvi luvi-tiny-Linux_i686
 
 publish-src: reset luvi-src.tar.gz
 	github-release upload --user ${LUVI_PUBLISH_USER} --repo ${LUVI_PUBLISH_REPO} --tag ${LUVI_TAG} \
