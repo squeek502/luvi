@@ -18,7 +18,7 @@ mkdir -p luvi
 tar xzf /io/luvi-src.tar.gz --directory luvi
 cd luvi
 make ${BUILD_TYPE}
-make -j${NPROCS}
+make -j${NPROCS} VERBOSE=1
 ldd build/luvi
 libcheck build/luvi
 cp build/luvi /io
