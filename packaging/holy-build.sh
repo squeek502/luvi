@@ -7,12 +7,8 @@ echo "Build Type: ${BUILD_TYPE}"
 
 set -e
 
-uname -m
-
 # Activate Holy Build Box environment.
 source /hbb_exe/activate
-
-uname -m
 
 set -x
 
