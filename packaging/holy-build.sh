@@ -13,7 +13,9 @@ source /hbb_exe/activate
 set -x
 
 # Extract and enter source
-tar xzf /io/luvi-src.tar.gz
+mkdir -p luvi
+tar xzf /io/luvi-src.tar.gz --directory luvi
+cd luvi
 make ${BUILD_TYPE}
 make -j${NPROCS}
 ldd build/luvi

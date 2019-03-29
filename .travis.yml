@@ -31,8 +31,6 @@ jobs:
       #if: tag IS present
       os: linux
       script:
-        - docker-machine create --driver vmwarefusion --vmwarefusion-cpu-count 3 holy-build-box
-        - eval $(docker-machine env holy-build-box)
         - make linux-build
       services:
         - docker
