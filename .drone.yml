@@ -1,0 +1,19 @@
+---
+kind: pipeline
+type: exec
+name: test-aarch64
+
+platform:
+  arch: arm64
+
+steps:
+- name: submodules
+  commands:
+  - git submodule update --init --recursive
+  - git submodule update --recursive
+- name: build
+  commands:
+  - WITHOUT_AMALG=1 make
+- name: test
+  commands:
+  - make test
